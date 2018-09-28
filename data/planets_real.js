@@ -2,7 +2,9 @@ const planet_data = [
   // sun:
   {
     mass: 2000000,
-    dist: 0
+    dist: 0,
+    vel: 0,
+    diam: 0
   },
   {
     mass: 0.33,
