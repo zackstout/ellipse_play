@@ -10,10 +10,17 @@ function Ball() {
   this.y = 0;
   this.angle = 0;
 
-  this.previous = {
-    x: 0,
-    y: 0
+  this.setPosition = function() {
+    this.x = w/2 + a * cos(this.angle) * scale;
+    this.y = h/2 + b * sin(this.angle) * scale;
   };
+
+  this.setPosition(); // call before setting previous:
+
+  this.previous = {
+    x: this.x,
+    y: this.y
+  }; // recall syntax for shorthand, with spread operator
 
   this.drawBall = function() {
     fill('yellow');
@@ -25,11 +32,6 @@ function Ball() {
     this.angle += 0.01;
   };
 
-  this.setPosition = function() {
-    this.x = w/2 + a * cos(this.angle) * scale;
-    this.y = h/2 + b * sin(this.angle) * scale;
-  };
-
   this.connect = function() {
     stroke('blue');
     const c = Math.pow(abs(a*a - b*b), 0.5);
@@ -39,6 +41,12 @@ function Ball() {
   this.drawPrevious = function() {
     fill('orange');
     ellipse(this.previous.x, this.previous.y, 5);
+  };
+
+  this.connectPrevious = function() {
+    stroke('blue');
+    const c = Math.pow(abs(a*a - b*b), 0.5);
+    line(w/2, h/2 + c * scale, this.previous.x, this.previous.y);
   };
 }
 
@@ -54,12 +62,14 @@ function draw() {
   count++;
   background(200);
   drawFoci();
-  // drawBall();
+  drawEllipse();
+
   ball.locomote();
   ball.setPosition();
   ball.connect();
   ball.drawBall();
   ball.drawPrevious();
+  ball.connectPrevious();
   // console.log(count);
 
   if (count % 100 == 0) {
@@ -74,8 +84,12 @@ function drawFoci() {
   const c = Math.pow(abs(a*a - b*b), 0.5);
   fill('green');
   noStroke();
-  // console.log(c);
-
   ellipse(w/2, h/2 + c * scale, 5);
   ellipse(w/2, h/2 - c * scale, 5);
+}
+
+function drawEllipse() {
+  noFill();
+  stroke('black');
+  ellipse(w/2, h/2, a * scale * 2, b * scale * 2);
 }
