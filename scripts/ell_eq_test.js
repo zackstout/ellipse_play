@@ -54,6 +54,7 @@ function setup() {
 }
 
 // was using to draw full elliptical path to ensure it was symmetrical about foci:
+// OOOH duh we could have just removed `background(200)` from the draw loop....
 // class Ellipse {
 //   constructor(r, a) {
 //     this.r = r;
@@ -78,6 +79,7 @@ function draw() {
 
   push();
   translate(w/2, h/2);
+  // This strategy won't be scalable: would have to rotate for each new planet:
   rotate(THETA);
 
   // Draw orbiting planet:
@@ -85,12 +87,12 @@ function draw() {
   ellipse(R, 0, 5);
 
   // Draw irrelevant focus:
-  fill('yellow');
-  ellipse(0, 0, 5);
+  // fill('yellow');
+  // ellipse(0, 0, 5);
   pop();
 
   // Draw relevant focus:
-  ellipse(w/2 - (a - c), h/2, 5);
+  ellipse(w/2 - (a - c), h/2, 5); // Huh, thought we would have to subtract double (a - c)...
 
   // was using to draw elliptical path:
   // ellipses.forEach(e => e.draw());
